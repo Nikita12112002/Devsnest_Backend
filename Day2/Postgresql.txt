@@ -1,0 +1,1307 @@
+
+                                          
+postgres=#  ALTER USER postgres WITH PASSWORD 'postgres';
+ALTER ROLE
+postgres=# CREATE DATABASE devsnest;
+WARNING:  could not flush dirty data: Function not implemented
+CREATE DATABASE
+
+                  
+postgres=# GRANT ALL PRIVILEGES ON DATABASE devsnest to postgres;
+GRANT
+postgres=# \c devsnest
+You are now connected to database "devsnest" as user "postgres".
+devsnest=# CREATE TABLE COMPANY(
+devsnest(# NAME CHAR(50),
+devsnest(# AGE INT NOT NULL,
+devsnest(# ID INT PRIMARY KEY,
+devsnest(# SALARY DECIMAL(2,18)
+devsnest(# );
+ERROR:  NUMERIC scale 18 must be between 0 and precision 2
+LINE 5: SALARY DECIMAL(2,18)
+               ^
+devsnest=# CREATE TABLE COMPANY(
+devsnest(# NAME CHAR(50),
+devsnest(#
+devsnest(# ^C
+devsnest=# ^C
+devsnest=# ^C
+devsnest=# ^C
+devsnest=# CREATE TABLE COMPANY(
+NAME CHAR(50),
+AGE INT NOT NULL,
+ID INT PRIMARY KEY,
+SALARY DECIMAL(18,2)
+);
+CREATE TABLE
+devsnest=# \d
+          List of relations
+ Schema |  Name   | Type  |  Owner
+--------+---------+-------+----------
+ public | company | table | postgres
+(1 row)
+
+devsnest=# \d company
+                 Table "public.company"
+ Column |     Type      | Collation | Nullable | Default
+--------+---------------+-----------+----------+---------
+ name   | character(50) |           |          |
+ age    | integer       |           | not null |
+ id     | integer       |           | not null |
+ salary | numeric(18,2) |           |          |
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+devsnest=# INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+devsnest-# VALUES("NIKITA",7,1,2000.56);
+ERROR:  column "NIKITA" does not exist
+LINE 2: VALUES("NIKITA",7,1,2000.56);
+               ^
+devsnest=# INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+VALUES('NIKITA',7,1,2000.56);
+INSERT 0 1
+devsnest=# SELECT * FROM COMPANY
+devsnest-# INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+VALUES('NIKITA',7,1,2000.56);
+ERROR:  syntax error at or near "INTO"
+LINE 2: INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+               ^
+devsnest=# SELECT * FROM COMPANY;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+devsnest-# VALUES('B',10,2,30000.40);
+INSERT 0 1
+devsnest=# SELECT * FROM COMPANY
+devsnest-# SELECT * FROM COMPANY;
+ERROR:  syntax error at or near "SELECT"
+LINE 2: SELECT * FROM COMPANY;
+        ^
+devsnest=# SELECT * FROM COMPANY
+devsnest-# SELECT * FROM COMPANY;
+ERROR:  syntax error at or near "SELECT"
+LINE 2: SELECT * FROM COMPANY;
+        ^
+devsnest=# ^C
+devsnest=# ^C
+devsnest=# ^C
+devsnest=# ^C
+devsnest=# ^C
+devsnest=# SELECT * FROM COMPANY;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# SELECT COUNT(*) AS "RECORDS" FROM COMPANY;
+ RECORDS
+---------
+       2
+(1 row)
+
+devsnest=# SELECT CURRENT_TIMESTAMP;
+        current_timestamp
+----------------------------------
+ 2021-09-06 23:52:42.669115+05:30
+(1 row)
+
+devsnest=# 15+2
+devsnest-# ^C
+devsnest=# SELECT (15+2) AS ADDITION;
+ addition
+----------
+       17
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE ID=1;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME='NIKITA';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE=7;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE=10;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ B                                                  |  10 |  2 | 30000.40
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE=7 AND NAME='B';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE=7 AND NAME='NIKITA';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY  WHERE ID IS NOT NULL
+devsnest-# SELECT * ^C
+devsnest=# SELECT * FROM COMPANY WHERE ID IS NOT NULL;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'n%';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME ILIKE 'N%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME ILIKE 'n%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N_A';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N_A%';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N_I%';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N_K';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N_K%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N_K%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N____A%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N____A';
+ name | age | id | salary
+------+-----+----+--------
+(0 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE NAME LIKE 'N____A%';
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE BETWEEN 7 AND 10;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE BETWEEN 7 AND 12;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE BETWEEN 5 AND 12;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE BETWEEN 5 AND 9;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE IN (10,7);
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE IN (7,9);
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE IN (7,11);
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE NOT IN(6,10);
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |   7 |  1 | 2000.56
+(1 row)
+
+devsnest=# SELECT * FROM COMPANY WHERE AGE NOT IN(6,11);
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ NIKITA                                             |   7 |  1 |  2000.56
+ B                                                  |  10 |  2 | 30000.40
+(2 rows)
+
+devsnest=# UPDATE COMPANY SET AGE=20 WHERE ID=1;
+UPDATE 1
+devsnest=#
+devsnest=# \d company
+                 Table "public.company"
+ Column |     Type      | Collation | Nullable | Default
+--------+---------------+-----------+----------+---------
+ name   | character(50) |           |          |
+ age    | integer       |           | not null |
+ id     | integer       |           | not null |
+ salary | numeric(18,2) |           |          |
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+devsnest=# SELECT * FROM COMPANY;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ B                                                  |  10 |  2 | 30000.40
+ NIKITA                                             |  20 |  1 |  2000.56
+(2 rows)
+
+devsnest=# UPDATE COMPANY SET AGE=18 WHERE NAME='NIKITA';
+UPDATE 1
+devsnest=# SELECT * FROM COMPANY;
+                        name                        | age | id |  salary
+----------------------------------------------------+-----+----+----------
+ B                                                  |  10 |  2 | 30000.40
+ NIKITA                                             |  18 |  1 |  2000.56
+(2 rows)
+
+devsnest=# DELETE FROM COMPANY WHERE ID=2;
+DELETE 1
+devsnest=# SELECT * FROM COMPANY;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |  18 |  1 | 2000.56
+(1 row)
+
+devsnest=# INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+devsnest-# VALUES('C',15,3,4000);
+INSERT 0 1
+devsnest=# INSERT INTO COMPANY(NAME,AGE,ID,SALARY)
+VALUES('B',16,2,6043);
+INSERT 0 1
+devsnest=# SELECT * FROM COMPANY ORDER BY ID;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ NIKITA                                             |  18 |  1 | 2000.56
+ B                                                  |  16 |  2 | 6043.00
+ C                                                  |  15 |  3 | 4000.00
+(3 rows)
+
+devsnest=# SELECT * FROM COMPANY ORDER BY ID DESC;
+                        name                        | age | id | salary
+----------------------------------------------------+-----+----+---------
+ C                                                  |  15 |  3 | 4000.00
+ B                                                  |  16 |  2 | 6043.00
+ NIKITA                                             |  18 |  1 | 2000.56
+(3 rows)
+
+devsnest=#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
