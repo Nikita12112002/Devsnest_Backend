@@ -30,6 +30,36 @@ app.get('/ab+cd' , (req , res)=>    //ab+cd -> b can come any number of times in
   res.send('abcd');
 });
 
+app.get('/ab*cd' , (req , res)=>    //ab*cd -> anything can come between ab and cd in url.
+{
+  res.send('abcd');
+});
+
+app.get('/ab(cd)?e' , (req , res)=>    //ab(cd)?e -> cd is optional in url.
+{
+  res.send('abcd');
+});
+
+app.get(/a/ , (req , res)=>    //url should start with a
+{
+  res.send('abcd');
+});
+
+app.get(/.*fly$/ , (req , res)=>    //ex- url -> http://localhost:5000/dragonfly
+{
+  res.send('abcd');
+});
+
+app.get('/user/:userId/books/:bookId' , (req , res)=>    //http://localhost:5000/user/1/books/2
+{                                                        // when we want this  type of url 
+  res.send(req.params);                                  // and dynamic id's.dynamic values we get in re.params
+});
+
+app.get(/a/ , (req , res)=>              // http://localhost/user/1/books/2?text=hello
+{                                        //text=hello we will get in req.query/
+  res.send(req.query);
+});
+
 app.listen(5000);
 /* 
 1.In backend-> security , performance and edge cases should be handled
