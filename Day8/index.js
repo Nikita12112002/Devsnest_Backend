@@ -11,7 +11,7 @@
            3. Time of Login */
 
      /* get call can be easily cached but post can not be cached
-      so for security purpose we use cache*/
+      so for security purpose we use post*/
 
 const express = require('express');
 const app = express();
