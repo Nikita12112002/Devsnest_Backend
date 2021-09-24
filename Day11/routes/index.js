@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var registerInitialChecks = require('../Middlewares/registerChecks');
+var register = require("../Controllers/register");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,5 +16,5 @@ pasword hash
 email lowercase
 save*/
 
-router.post('/register');
+router.post('/register',registerInitialChecks,register);
 module.exports = router;
